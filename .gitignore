@@ -1,4 +1,5 @@
-data/
+data/textextract
+data/tiff
 .ipynb_checkpoints/
 *env/
 .env
