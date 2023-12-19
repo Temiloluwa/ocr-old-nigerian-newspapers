@@ -1,4 +1,4 @@
-# Newspaper OCR
+# OCR on OLD Nigerian Newspapers
 
 ## Done Tasks
 
