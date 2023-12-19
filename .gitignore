@@ -3,3 +3,4 @@ data/tiff
 .ipynb_checkpoints/
 *env/
 .env
+.DS_Store
