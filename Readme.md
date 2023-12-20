@@ -5,7 +5,10 @@
 1. The `src/get_document_layout.py` uses Amazon Textextract to get the document layout and stores the information as json files.
 
 2. The module `src/perform_ocr_aws_text_extract.py` performs ocr using AWS Textextract.
-    - The file store the the OCR in a json file and crops of each crop as a jpeg file
+    - Stores OCR information at `ocr/aws_extract/december_1994`
+    - Each Image's OCR information is captured in a folder named just like it.
+    - The bounding boxes discovered when extracting the layout are cropped out of the image
+    - Then OCR is performed on the cropped images
 
 ## To-Do Tasks
 

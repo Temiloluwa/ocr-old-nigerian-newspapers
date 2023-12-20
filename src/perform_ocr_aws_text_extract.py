@@ -2,7 +2,7 @@ import os
 import io
 import json
 import boto3
-from typing import Dict, Union, Tuple
+from typing import Dict, Union, Tuple, List
 from PIL import Image
 
 ### CONTSTANTS ###
@@ -62,6 +62,8 @@ def save_pil_image_to_file(pil_image: Image.Image, folder: str, filename: str) -
     image_path = f"{folder}/{filename}"
     with open(image_path, 'wb') as file:
         file.write(image_bytes.getvalue())
+
+    return image_bytes
 
 
 def save_list_to_json(my_list: List[Union[int, float, str]], output_file: str) -> None:
@@ -139,7 +141,7 @@ if __name__ == "__main__":
         # get image and layout
         image, layout = get_image_and_layout(img_fn)
 
-        # create folder to store block ocr
+        # create folder to store block ocr images
         blocks_folder = f"{OCR_PATH}/{img_fn.replace('.jpeg', '')}/block_images"
         os.makedirs(blocks_folder, exist_ok=True)
 
@@ -148,4 +150,7 @@ if __name__ == "__main__":
             ocr_data = perform_ocr_aws_extract(client, image, layout, block_number, blocks_folder)
             block_ocr_data.append(ocr_data)
 
-        save_list_to_json(block_ocr_data, f"{blocks_folder}/aws_extract_ocr.json")
+        # create folder to store block ocr json
+        blocks_folder_ocr = f"{OCR_PATH}/{img_fn.replace('.jpeg', '')}"
+        os.makedirs(blocks_folder_ocr, exist_ok=True)
+        save_list_to_json(block_ocr_data, f"{blocks_folder_ocr}/aws_extract_ocr.json")
