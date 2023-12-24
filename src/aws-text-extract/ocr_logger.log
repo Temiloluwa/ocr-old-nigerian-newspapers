@@ -1,0 +1,130 @@
+2023-12-24 06:36:22,896 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:36:22,896 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:39:09,949 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:39:09,949 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:49:27,646 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:49:27,646 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:49:27,650 - ocr_logger - ERROR - Couldn't create queue named <__main__.SQSAndSNSController object at 0x107eac550>, name 'self' is not defined
+Traceback (most recent call last):
+  File "/var/folders/0_/_2dzbwps6fv0ffln25cvrlb80000gn/T/ipykernel_41236/2513226139.py", line 77, in create_queue
+    queue = self.sqs_client.create_queue(QueueName=name, Attributes=attributes)
+            ^^^^
+NameError: name 'self' is not defined
+2023-12-24 06:49:27,650 - ocr_logger - ERROR - Couldn't create queue named <__main__.SQSAndSNSController object at 0x107eac550>, name 'self' is not defined
+Traceback (most recent call last):
+  File "/var/folders/0_/_2dzbwps6fv0ffln25cvrlb80000gn/T/ipykernel_41236/2513226139.py", line 77, in create_queue
+    queue = self.sqs_client.create_queue(QueueName=name, Attributes=attributes)
+            ^^^^
+NameError: name 'self' is not defined
+2023-12-24 06:50:20,879 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:50:20,879 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:50:20,881 - ocr_logger - ERROR - Couldn't create queue named newspaper-ocr, Parameter validation failed:
+Invalid type for parameter Attributes.DelaySeconds, value: 3, type: <class 'int'>, valid types: <class 'str'>
+Invalid type for parameter Attributes.VisibilityTimeout, value: 60, type: <class 'int'>, valid types: <class 'str'>
+Traceback (most recent call last):
+  File "/var/folders/0_/_2dzbwps6fv0ffln25cvrlb80000gn/T/ipykernel_41236/2021088252.py", line 77, in create_queue
+    queue = self.sqs_client.create_queue(QueueName=name, Attributes=attributes)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/t.adeoti/codes-and-scripts/projects/newspaper-ocr/text-extract-env/lib/python3.11/site-packages/botocore/client.py", line 553, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/t.adeoti/codes-and-scripts/projects/newspaper-ocr/text-extract-env/lib/python3.11/site-packages/botocore/client.py", line 962, in _make_api_call
+    request_dict = self._convert_to_request_dict(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/t.adeoti/codes-and-scripts/projects/newspaper-ocr/text-extract-env/lib/python3.11/site-packages/botocore/client.py", line 1036, in _convert_to_request_dict
+    request_dict = self._serializer.serialize_to_request(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/t.adeoti/codes-and-scripts/projects/newspaper-ocr/text-extract-env/lib/python3.11/site-packages/botocore/validate.py", line 381, in serialize_to_request
+    raise ParamValidationError(report=report.generate_report())
+botocore.exceptions.ParamValidationError: Parameter validation failed:
+Invalid type for parameter Attributes.DelaySeconds, value: 3, type: <class 'int'>, valid types: <class 'str'>
+Invalid type for parameter Attributes.VisibilityTimeout, value: 60, type: <class 'int'>, valid types: <class 'str'>
+2023-12-24 06:50:20,881 - ocr_logger - ERROR - Couldn't create queue named newspaper-ocr, Parameter validation failed:
+Invalid type for parameter Attributes.DelaySeconds, value: 3, type: <class 'int'>, valid types: <class 'str'>
+Invalid type for parameter Attributes.VisibilityTimeout, value: 60, type: <class 'int'>, valid types: <class 'str'>
+Traceback (most recent call last):
+  File "/var/folders/0_/_2dzbwps6fv0ffln25cvrlb80000gn/T/ipykernel_41236/2021088252.py", line 77, in create_queue
+    queue = self.sqs_client.create_queue(QueueName=name, Attributes=attributes)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/t.adeoti/codes-and-scripts/projects/newspaper-ocr/text-extract-env/lib/python3.11/site-packages/botocore/client.py", line 553, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/t.adeoti/codes-and-scripts/projects/newspaper-ocr/text-extract-env/lib/python3.11/site-packages/botocore/client.py", line 962, in _make_api_call
+    request_dict = self._convert_to_request_dict(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/t.adeoti/codes-and-scripts/projects/newspaper-ocr/text-extract-env/lib/python3.11/site-packages/botocore/client.py", line 1036, in _convert_to_request_dict
+    request_dict = self._serializer.serialize_to_request(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/t.adeoti/codes-and-scripts/projects/newspaper-ocr/text-extract-env/lib/python3.11/site-packages/botocore/validate.py", line 381, in serialize_to_request
+    raise ParamValidationError(report=report.generate_report())
+botocore.exceptions.ParamValidationError: Parameter validation failed:
+Invalid type for parameter Attributes.DelaySeconds, value: 3, type: <class 'int'>, valid types: <class 'str'>
+Invalid type for parameter Attributes.VisibilityTimeout, value: 60, type: <class 'int'>, valid types: <class 'str'>
+2023-12-24 06:50:47,283 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:50:47,283 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:50:47,586 - ocr_logger - INFO - Created queue newspaper-ocr with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr
+2023-12-24 06:50:47,586 - ocr_logger - INFO - Created queue newspaper-ocr with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr
+2023-12-24 06:51:53,488 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:51:53,488 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:52:08,941 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:52:08,941 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:52:23,837 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:52:23,837 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:52:28,926 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:52:28,926 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:52:29,201 - ocr_logger - INFO - Created queue newspaper-ocr with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr
+2023-12-24 06:52:29,201 - ocr_logger - INFO - Created queue newspaper-ocr with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr
+2023-12-24 06:52:30,542 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:52:30,542 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:52:30,543 - ocr_logger - ERROR - Couldn't delete queue with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr!, name 'client' is not defined
+Traceback (most recent call last):
+  File "/var/folders/0_/_2dzbwps6fv0ffln25cvrlb80000gn/T/ipykernel_41236/86737715.py", line 53, in delete_queue
+    _ = client.delete_queue(QueueUrl=queue_url)
+        ^^^^^^
+NameError: name 'client' is not defined
+2023-12-24 06:52:30,543 - ocr_logger - ERROR - Couldn't delete queue with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr!, name 'client' is not defined
+Traceback (most recent call last):
+  File "/var/folders/0_/_2dzbwps6fv0ffln25cvrlb80000gn/T/ipykernel_41236/86737715.py", line 53, in delete_queue
+    _ = client.delete_queue(QueueUrl=queue_url)
+        ^^^^^^
+NameError: name 'client' is not defined
+2023-12-24 06:52:51,097 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:52:51,097 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:52:51,343 - ocr_logger - INFO - Created queue newspaper-ocr with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr
+2023-12-24 06:52:51,343 - ocr_logger - INFO - Created queue newspaper-ocr with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr
+2023-12-24 06:52:52,711 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:52:52,711 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:52:52,712 - ocr_logger - ERROR - Couldn't delete queue with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr!, name 'client' is not defined
+Traceback (most recent call last):
+  File "/var/folders/0_/_2dzbwps6fv0ffln25cvrlb80000gn/T/ipykernel_41236/2179299520.py", line 53, in delete_queue
+    _ = client.delete_queue(QueueUrl=queue_url)
+        ^^^^^^
+NameError: name 'client' is not defined
+2023-12-24 06:52:52,712 - ocr_logger - ERROR - Couldn't delete queue with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr!, name 'client' is not defined
+Traceback (most recent call last):
+  File "/var/folders/0_/_2dzbwps6fv0ffln25cvrlb80000gn/T/ipykernel_41236/2179299520.py", line 53, in delete_queue
+    _ = client.delete_queue(QueueUrl=queue_url)
+        ^^^^^^
+NameError: name 'client' is not defined
+2023-12-24 06:53:09,296 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:53:09,296 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:53:09,297 - ocr_logger - ERROR - Couldn't delete queue with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr!, name 'client' is not defined
+Traceback (most recent call last):
+  File "/var/folders/0_/_2dzbwps6fv0ffln25cvrlb80000gn/T/ipykernel_41236/2179299520.py", line 53, in delete_queue
+    _ = client.delete_queue(QueueUrl=queue_url)
+        ^^^^^^
+NameError: name 'client' is not defined
+2023-12-24 06:53:09,297 - ocr_logger - ERROR - Couldn't delete queue with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr!, name 'client' is not defined
+Traceback (most recent call last):
+  File "/var/folders/0_/_2dzbwps6fv0ffln25cvrlb80000gn/T/ipykernel_41236/2179299520.py", line 53, in delete_queue
+    _ = client.delete_queue(QueueUrl=queue_url)
+        ^^^^^^
+NameError: name 'client' is not defined
+2023-12-24 06:53:13,605 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:53:13,605 - ocr_logger - INFO - Created topic newspaper-ocr  with ARN arn:aws:sns:us-east-1:222311789433:newspaper-ocr.
+2023-12-24 06:53:13,839 - ocr_logger - INFO - Created queue newspaper-ocr with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr
+2023-12-24 06:53:13,839 - ocr_logger - INFO - Created queue newspaper-ocr with URL https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr
+2023-12-24 06:53:13,969 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:53:13,969 - ocr_logger - INFO - Deleted topic arn:aws:sns:us-east-1:222311789433:newspaper-ocr
+2023-12-24 06:53:14,068 - ocr_logger - INFO - Deleted queue with URL=https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr
+2023-12-24 06:53:14,068 - ocr_logger - INFO - Deleted queue with URL=https://sqs.us-east-1.amazonaws.com/222311789433/newspaper-ocr
