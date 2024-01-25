@@ -21,3 +21,8 @@
     - Improving the Image quality
     - Exploring other OCR libraries
     - Please modify `perform_ocr` function in module `src/aws-text-extract/exp_perform_ocr.ipynb` to improve the OCR performance. 
+
+3. Filename Consistency:
+    1. lowercase all filenames
+    2. replace .jpeg with jpg
+    3. replace double underscore with single underscore
