@@ -4,6 +4,42 @@ import aiofiles
 import asyncio
 from openai import AsyncOpenAI
 from dotenv import load_dotenv
+from loguru import logger
+
+log_info_processed_path = "logs/ocr/processed/preprocess.log"
+log_info_path = "logs/ocr/info/preprocess.log"
+log_error_path = "logs/ocr/error/preprocess.log"
+log_format = "{time} | {level} | {message}"
+log_rotation = "100 MB"
+
+info_logger = logger.bind(log_type="info")
+info_logger.add(log_info_path, format=log_format, level="INFO", filter=lambda record: record["level"].no < 40, rotation=log_rotation)
+
+processed_logger = logger.bind(log_type="debug")
+processed_logger.add(log_info_processed_path, format="{message}", level="DEBUG", rotation=log_rotation, filter=lambda record: record["level"].no <=10)
+
+error_logger = logger.bind(log_type="error")
+error_logger.add(log_error_path, format=log_format, level="ERROR", filter=lambda record: record["level"].no >= 40, rotation=log_rotation)
+
+
+def read_file_lines(file_path):
+    """
+    Read a file and return a list containing all the lines.
+
+    Parameters:
+    - file_path (str): The path to the file.
+
+    Returns:
+    - list: A list containing all the lines from the file.
+    """
+    try:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+            lines = [i.strip("\n").strip(" ") for i in lines]
+        return lines
+    except FileNotFoundError:
+        print(f"Error File not found")
+
 
 
 async def async_list_gen(list_data):
@@ -23,7 +59,7 @@ async def async_list_gen(list_data):
         yield item
 
 
-def remove_duplication(text: str) -> str:
+async def remove_duplication(text: str) -> str:
     """
     Removes the second half of the input text.
 
@@ -90,9 +126,14 @@ async def fix_typo_and_grammatical_errors(client: AsyncOpenAI, text: str) -> str
 
     try:
         response: dict = json.loads(response)
-        return response.get("fixed_text", "Error: No key 'fixed_text' in response")
-    except Exception as e:
-        return "Error: Could not parse response as JSON"
+    except Exception:
+        return error_logger.error("Error: Could not parse response as JSON")
+
+    try:
+        fixed_text = response["fixed_text"]
+        return fixed_text
+    except KeyError:
+        raise error_logger.error("Error: No key 'fixed_text' in response")
     
 
 async def async_os_walk(path: str):
@@ -110,33 +151,56 @@ async def async_os_walk(path: str):
 
 
 
-async def process_ocr_file(client: AsyncOpenAI, file_path: str, processed_ocr_data: list) -> None:
+async def process_ocr_file(client: AsyncOpenAI, file_path: str) -> list:
     """
     Asynchronously process an OCR JSON file by eliminating duplication and fixing typos in the OCR results.
 
     Args:
         client (AsyncOpenAI): The OpenAI API client used to interact with the language model.
         file_path (str): The path to the OCR JSON file.
-        processed_ocr_data (list): The list to store the processed OCR data.
 
     Returns:
-        None: The function appends the processed data to the provided list.
+        processed_ocr_data:  processed data to the provided list.
     """
-    async with aiofiles.open(file_path, 'r') as f:
-        ocr_data = json.loads(await f.read())
-
-    async for block_data in async_list_gen(ocr_data):
-        block_type = block_data["block_type"]
-        ocr_result = block_data["ocr_result"]
+    async def process_block(block_data: dict) -> None:
+        block_type = block_data.get("block_type")
+        ocr_result = block_data.get("ocr_result")
+        reading_order = block_data.get("reading_order")
         # eliminate duplication and fix typo
         if block_type:
-            ocr_result = remove_duplication(ocr_result)
+            ocr_result = await remove_duplication(ocr_result)
             ocr_result = await fix_typo_and_grammatical_errors(client, ocr_result)
             block_data["ocr_result"] = ocr_result
-            processed_ocr_data.append(block_data)
+
+            info_msg = f"fixed: blocktype {block_type}, reading order {reading_order}"
+            info_logger.info(info_msg)
+        
+        return block_data
+
+    try:
+        async with aiofiles.open(file_path, 'r') as f:
+            ocr_data = json.loads(await f.read())
+
+        processed_ocr_data = []
+        tasks_per_minute = 3
+        time_interval = 60 / tasks_per_minute  # seconds per task
+
+        for block_data in ocr_data:
+            tasks = [process_block(block_data)]
+            task_data = await asyncio.gather(*tasks)
+            processed_ocr_data.append(task_data[0])
+
+            await asyncio.sleep(time_interval)
+        
+        return processed_ocr_data
+
+    except Exception as e:
+        error_logger.error(f"Error processing OCR file '{file_path}': {e}")
+
+    
 
 
-async def process_ocr_json( client: AsyncOpenAI,
+async def process_ocr_directory( client: AsyncOpenAI,
                             ocr_output_root: str, 
                             processed_fn: str = "processed_aws_extract_ocr.json") -> None:
     """
@@ -152,7 +216,7 @@ async def process_ocr_json( client: AsyncOpenAI,
     """
     
 
-    async def process_directory(dirpath: str) -> None:
+    async def process_json(dirpath: str) -> None:
         """
         Asynchronously process OCR JSON files in a directory.
 
@@ -162,27 +226,38 @@ async def process_ocr_json( client: AsyncOpenAI,
         Returns:
             None: The function appends the processed data to the global list.
         """
+
+        processed_paths = read_file_lines(log_info_processed_path)
+
         async for root, dirnames, _ in async_os_walk(dirpath):
             async for dir_name in async_list_gen(dirnames):
-                processed_ocr_data = []
 
                 fn = os.path.join(root, dir_name,"aws_extract_ocr.json")
                 p_fn = os.path.join(root, dir_name, processed_fn)
 
-                # process file
-                await process_ocr_file(client, fn, processed_ocr_data)
-                
-                # save processed data in new file
-                async with aiofiles.open(p_fn, 'w') as file:
-                    await file.write(json.dumps(processed_ocr_data, indent=2))
-                    print(f"Processed data written to: {p_fn}")
+                if fn not in processed_paths:
+                    # process file
+                    processed_ocr_data = await process_ocr_file(client, fn)
 
-    await process_directory(ocr_output_root)
+                    if processed_ocr_data:
+                        # save processed data in new file
+                        info_logger.info(f"Processing: {fn}")
+                        async with aiofiles.open(p_fn, 'w') as file:
+                            await file.write(json.dumps(processed_ocr_data, indent=2))
+                            info_logger.info(f"Processed data written to: {p_fn}")
+                            processed_logger.debug(f"{fn}")
+
+    await process_json(ocr_output_root)
+
+
+async def main():
+    month_and_year = "december_1994"
+    ocr_output_root = os.path.join("data", "ocr_output", month_and_year)
+    load_dotenv(dotenv_path="/home/temmie/code-and-scripts/playground/.env")
+    client = AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    
+    await process_ocr_directory(client, ocr_output_root)
 
 
 if __name__ == "__main__":
-    month_and_year = "december_1994"
-    ocr_output_root = os.path.join("data","ocr_output", month_and_year)
-    load_dotenv(dotenv_path="/home/temmie/code-and-scripts/playground/.env")
-    client = AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-    asyncio.run(process_ocr_json(client, ocr_output_root))
+    asyncio.run(main())
